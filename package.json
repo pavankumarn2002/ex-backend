@@ -1,0 +1,46 @@
+{
+  "name": "ex-backend",
+  "version": "1.0.0",
+  "description": "This is prisma authentication project\"",
+  "homepage": "https://github.com/pavankumarn2002/ex-backend#readme",
+  "bugs": {
+    "url": "https://github.com/pavankumarn2002/ex-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavankumarn2002/ex-backend.git"
+  },
+  "license": "ISC",
+  "author": "npk",
+  "type": "commonjs",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec tsx ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.1.2",
+    "@types/pg": "^8.20.0",
+    "prisma": "^7.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemon": "^3.1.14",
+    "pg": "^8.22.0"
+  }
+}
