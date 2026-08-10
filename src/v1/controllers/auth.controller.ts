@@ -13,7 +13,7 @@ const COOKIE_AGE = 30 * 24 * 60 * 60 * 1000;
 
 export const AuthController: AuthController = {
     signup: async (req: Request, res: Response) => {
-        const { email, password } = req.body;
+        const { email, password, userName } = req.body;
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
@@ -21,6 +21,7 @@ export const AuthController: AuthController = {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.user.create({
             data: {
+                userName,
                 email,
                 password: hashedPassword,
             },
@@ -32,7 +33,7 @@ export const AuthController: AuthController = {
         };
         res.cookie("user", sanitizeUser(user), { httpOnly: true, secure: false, sameSite: "lax", maxAge: COOKIE_AGE });
         res.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax", maxAge: COOKIE_AGE });
-        return res.status(201).json({ user });
+        return res.status(201).json({ ...sanitizeUser(user), success: true });
     },
     signin: async (req: Request, res: Response) => {
         const { email, password } = req.body;
@@ -51,7 +52,7 @@ export const AuthController: AuthController = {
         };
         res.cookie("user", sanitizeUser(user), { httpOnly: true, secure: false, sameSite: "lax", maxAge: COOKIE_AGE });
         res.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax", maxAge: COOKIE_AGE });
-        return res.status(200).json({ user });
+        return res.status(200).json({ ...user, success: true });
     },
     logout: async (req: Request, res: Response) => {
         res.clearCookie("user");
@@ -59,6 +60,10 @@ export const AuthController: AuthController = {
         return res.status(200).json({ message: "Logged out successfully" });
     },
     me: async (req: Request, res: Response) => {
-        return res.status(200).json({ user: req.user });
+        const user = req.user;
+        if (!user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        return res.status(200).json({ ...user, success: true });
     },
 };
